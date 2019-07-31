@@ -1,10 +1,13 @@
 module.exports = {
   customMiddleware: (req, res, next) => {
-    console.log('aloha')
+    if(!req.session.username){
+      req.session.username = "Michael Scott"
+    }
+    console.log(req.session)
     next()
   },
   authenticate: (req,res, next) => {
-    let {username} = req.body
+    let {username} = req.session
     if (username === 'Michael Scott') {
       next()
     } else {

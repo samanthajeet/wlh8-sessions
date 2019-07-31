@@ -7,12 +7,16 @@ const middleware = require('./middleware')
 
 //Top Level Middleware
 app.use(express.json())
-app.use(middleware.customMiddleware)
 app.use(session({
   secret: SESSION_SECRET,
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+  }
 }))
+app.use(middleware.customMiddleware)
+app.use(middleware.authenticate)
 
 //Endpoints
 const ctrl = require('./controller')
